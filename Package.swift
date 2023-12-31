@@ -11,13 +11,16 @@ let package = Package(
             targets: ["FastRTPSBridge"]),
     ],
     dependencies: [
+        // This dependency gets rid of the nasty linking errors.
+        // https://github.com/DimaRU/FastRTPSSwift/issues/1
+        .package(url: "https://github.com/krzyzanowskim/OpenSSL.git", .upToNextMinor(from: "3.1.4000")),
         .package(name: "CDRCodable", url: "https://github.com/DimaRU/CDRCodable.git", from: "1.0.0"),
         .package(name: "FastDDS", url: "https://github.com/huyaoyu/FastDDS.git", .upToNextMajor(from: "2.6.6"))
     ],
     targets: [
         .target(
             name: "FastRTPSWrapper",
-            dependencies: ["FastDDS"],
+            dependencies: ["FastDDS", "OpenSSL"],
             path: "Sources/FastRTPSWrapper"),
         .target(
             name: "FastRTPSBridge",
